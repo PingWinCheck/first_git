@@ -3,7 +3,9 @@
 {% block body %}
 {% load static %}
 {% for i in db %}
-наименование - <a href="{{i.slug}}"> {{i.name}} </a>
+    <img src="{{i.photo.url}}" alt="{{ i.name }}" />
+    <br>
+    наименование - <a href="{{i.slug}}"> {{i.name}} </a>
     <br>
     цена - {{i.price}}
     <br>
@@ -11,7 +13,7 @@
     <br>
     <br>
     <br>
-    <img src="{% static 'shop/'|add:i.slug|add:'.jpg' %}" alt="{{ i.name }}" width="200" height="200"/>
+
 
 {% endfor %}
 {% endblock %}
