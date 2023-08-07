@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="static/shop/css/styles.css">
+    <meta charset="UTF-8">
+    <title>{{name}}</title>
+</head>
+<body>
+<div class="container">
+    {% for m in menu %}
+        <a href="{% url m.url %}">{{m.name}}</a>
+    {% endfor %}
+
+</div>
+
+<h1>Магазин телефонов</h1>
+
+
+{% block body %}
+{% endblock %}
+
+</body>
+</html>
