@@ -14,21 +14,26 @@ def index(request):
         {'name': 'Регистрация', 'url': 'reg'},
         {'name': 'Войти', 'url': 'enter'},
 ]
-    return render(request, 'index.html', {'db': read_db, 'name': 'Главная', 'menu': menu})
+    return render(request, 'index.html', {'db': read_db, 'title': 'Главная', 'menu': menu})
 
 
-def desc(request, slug):
-    rdb = Mobile.objects.get(slug=slug)
-
-    return render(request, 'descriptions.html', {'data': rdb, 'name': rdb.name})
 
 
 def PageNotFound(request, exception):
     return render(request, 'error404.html', {'name': 'error'})
 
-def about(requst):
-    return render(requst,'error404.html')
+def about(request):
+    context = {
+        'title': 'О сайте',
+
+    }
+    return render(request, 'about.html', context=context)
 def reg(requst):
     pass
 def enter(requst):
     pass
+
+def desc(request, slug):
+    rdb = Mobile.objects.get(slug=slug)
+
+    return render(request, 'descriptions.html', {'data': rdb, 'name': rdb.name})
