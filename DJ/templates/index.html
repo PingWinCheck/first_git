@@ -5,7 +5,7 @@
 {% for i in db %}
     <img src="{{i.photo.url}}" alt="{{ i.name }}" />
     <br>
-    наименование - <a href="{{i.slug}}"> {{i.name}} </a>
+    наименование - <a href="shop/{{i.slug}}"> {{i.name}} </a>
     <br>
     цена - {{i.price}}
     <br>
