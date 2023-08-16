@@ -24,11 +24,14 @@ from shop.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('dvd/', dvd, name='dvd'),
     path('', index, name='index'),
     path('shop/<slug:slug>/', desc),
     path('about/', about, name='about'),
     path('register/', reg, name='reg'),
     path('enter/', enter, name='enter'),
+
+    path('dvd/shop/<slug:slug>/', desc_dvd, name='desc'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler404 = PageNotFound

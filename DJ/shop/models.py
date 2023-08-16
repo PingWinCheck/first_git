@@ -1,13 +1,16 @@
 from django.db import models
 
 # Create your models here.
+from django.urls import reverse
+
+
 class Mobile(models.Model):
     firm = models.ForeignKey('Firm', on_delete=models.PROTECT, null=True, verbose_name='Фирма')
     name = models.CharField(max_length=100, verbose_name='Модель')
-    description = models.CharField(max_length=255, verbose_name='Описание')
+    description = models.TextField(verbose_name='Описание')
     price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
     photo = models.ImageField(verbose_name='Фото')
-    quantity = models.IntegerField(verbose_name='Кол-во')
+    quantity = models.PositiveSmallIntegerField(verbose_name='Кол-во', default=0)
     slug = models.SlugField(max_length=255)
 
 
@@ -19,6 +22,11 @@ class Mobile(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('desc', kwargs={'slug': self.slug})
+
+
 
 class Firm(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name='Фирма')

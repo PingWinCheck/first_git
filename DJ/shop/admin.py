@@ -8,7 +8,7 @@ class MobileAdmin(admin.ModelAdmin):
     list_display = ('firm', 'name', 'price', 'quantity', 'photo')
     list_display_links = ('firm', 'name')
     list_editable = ('price', 'quantity')
-    search_fields = ('name',)
+    search_fields = ('name', 'firm__name')
     list_filter = ('firm',)
 
 admin.site.register(Mobile, MobileAdmin)

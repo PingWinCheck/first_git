@@ -1,5 +1,5 @@
 body {
-    background: green;
+    background: #EE00FF;
 }
 
 
@@ -8,4 +8,11 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+.page {
+    max-width: 100px;
+
+    margin-left: auto;
+    margin-right: auto;
 }

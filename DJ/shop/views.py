@@ -10,7 +10,7 @@ def menu_func() -> list[dict[str, str]]:
         {'name': 'Главная', 'url': 'index'},
         {'name': 'О магазине', 'url': 'about'},
         {'name': 'Регистрация', 'url': 'reg'},
-        {'name': 'Войти', 'url': 'enter'},
+        {'name': 'Войти', 'url': 'dvd'},
     ]
     return menu
 
@@ -43,5 +43,22 @@ def enter(request):
 
 def desc(request, slug):
     rdb = Mobile.objects.get(slug=slug)
-
     return render(request, 'descriptions.html', {'data': rdb, 'name': rdb.name})
+
+
+def dvd(request):
+    mobile = Mobile.objects.all().order_by('-quantity')
+    if request.GET:
+        name = request.GET['find']
+        mobile = mobile.filter(firm__name__icontains=name) | mobile.filter(name__icontains=name)
+    context = {
+        'title': 'Телефоны',
+        'mobiles': mobile,
+    }
+    return render(request, 'telephone.html', context=context)
+
+def desc_dvd(request, slug):
+    context = {
+        'mobile': Mobile.objects.get(slug=slug)
+    }
+    return render(request, 'desc.html', context=context)

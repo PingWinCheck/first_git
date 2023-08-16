@@ -1,0 +1,11 @@
+{% extends "dvd.html" %}
+
+{% block content %}
+    <img src="{{ mobile.photo.url }}" alt="{{mobile.name}}">
+    <br>
+    {{ mobile.firm }}
+    <br>
+    {{ mobile.name }} <br>
+    {{ mobile.price }} <br>
+    {{ mobile.description }}
+{% endblock %}

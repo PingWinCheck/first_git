@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/static/shop/css/style_dvd.css">
+</head>
+<body>
+   <header>
+        <a href="{% url 'dvd' %}" class="logo">LOGO</a>
+        <nav>
+            <ul>
+                <li><a href="{% url 'dvd' %}">home</a></li>
+                <li><a href="{% url 'about' %}">about</a></li>
+                <li><a href="/admin">admin</a></li>
+                    
+                <li><a href="#">portfolio</a></li>
+                    
+                <li><a href="#">design</a></li>
+                <li><a href="#">contacs</a></li>
+            </ul>
+        </nav>
+   </header>
+
+   <div class="backmenu">
+        <form action="{% url 'dvd' %}" method="">
+            <input type="text" name="find" placeholder="Поиск">
+        </form>    
+        
+   </div>
+    <div class="maiin">
+        {% block content%}
+        {% endblock %}
+    </div>
+</body>
+</html>
