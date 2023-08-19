@@ -1,0 +1,10 @@
+{% extends 'dvd.html' %}
+
+{% block content %}
+
+<form action="{% url 'learn' %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="OK">
+</form>
+{% endblock %}

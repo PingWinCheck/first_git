@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 
 from shop.models import Mobile
+from .forms import *
 from django.http import HttpResponseNotFound
 
 
@@ -62,3 +63,15 @@ def desc_dvd(request, slug):
         'mobile': Mobile.objects.get(slug=slug)
     }
     return render(request, 'desc.html', context=context)
+
+
+def learn(request):
+    if request.method == 'POST':
+        form = BackFilterForm(request.POST)
+
+    else:
+        form = BackFilterForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'learn.html', context=context)
