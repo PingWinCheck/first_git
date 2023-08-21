@@ -1,7 +1,9 @@
 {% extends "dvd.html" %}
 
 {% block content %}
-    <img src="{{ mobile.photo.url }}" alt="{{mobile.name}}">
+    {% if mobile.photo %}
+        <img src="{{ mobile.photo.url }}" alt="{{mobile.name}}">
+    {% endif %}
     <br>
     {{ mobile.firm }}
     <br>

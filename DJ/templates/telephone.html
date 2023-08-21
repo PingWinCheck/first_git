@@ -4,7 +4,9 @@
     {% for mobile in mobiles %}
     <a href="{{ mobile.get_absolute_url }}">
         <div class="cart">
+        {% if mobile.photo %}
         <img src="{{mobile.photo.url}}" alt="{{mobile.name}}" width=200>
+            {% endif %}
         <p>{{mobile.firm}} {{mobile.name}}</p>
         <p>Цена  -  {{mobile.price}}</p>
         {% if mobile.quantity <= 5  and mobile.quantity > 0  %}

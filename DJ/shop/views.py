@@ -1,5 +1,4 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 
 from shop.models import Mobile
 from .forms import *
@@ -67,11 +66,35 @@ def desc_dvd(request, slug):
 
 def learn(request):
     if request.method == 'POST':
-        form = BackFilterForm(request.POST)
-
+        form = ModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('dvd')
     else:
-        form = BackFilterForm()
+        form = ModelForm()
+
+
+    # if request.method == 'POST':
+    #     delmobile = DelMobile(request.POST)
+    #     if delmobile.is_valid():
+    #         print(delmobile.cleaned_data)
+    #         print(delmobile.cleaned_data['delmobile'])
+    #         Mobile.objects.filter(name=delmobile.cleaned_data['delmobile']).delete()
+    #         return redirect('dvd')
+    # else:
+    #     delmobile = DelMobile()
+
+    # if request.method == 'POST':
+    #     delmobile = DelMobile(request.POST)
+    #     if delmobile.is_valid():
+    #         Mobile.objects.filter(name=delmobile.cleaned_data['name']).delete()
+    #         print(delmobile.cleaned_data)
+    #         return redirect('dvd')
+    # else:
+    #     delmobile = DelMobile()
+
     context = {
         'form': form,
+        # 'formdel': delmobile,
     }
     return render(request, 'learn.html', context=context)

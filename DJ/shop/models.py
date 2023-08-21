@@ -11,7 +11,7 @@ class Mobile(models.Model):
     price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
     photo = models.ImageField(verbose_name='Фото')
     quantity = models.PositiveSmallIntegerField(verbose_name='Кол-во', default=0)
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)
 
 
     class Meta:

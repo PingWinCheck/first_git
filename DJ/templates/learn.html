@@ -2,9 +2,20 @@
 
 {% block content %}
 
-<form action="{% url 'learn' %}" method="post">
+<form action="{% url 'learn' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{form}}
+    {{form.as_p}}
     <input type="submit" value="OK">
+
+
 </form>
+
+<form action="{% url 'learn' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{formdel}}
+    <input type="submit" value="OK">
+
+
+</form>
+
 {% endblock %}
