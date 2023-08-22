@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-
-from shop.models import Mobile
+from shop.forms import *
+from shop.models import *
 from django.http import HttpResponseNotFound
 
 
@@ -62,3 +62,11 @@ def desc_dvd(request, slug):
         'mobile': Mobile.objects.get(slug=slug)
     }
     return render(request, 'desc.html', context=context)
+
+
+def register(request):
+    form = RegForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'reg.html', context=context)

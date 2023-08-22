@@ -28,7 +28,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('shop/<slug:slug>/', desc),
     path('about/', about, name='about'),
-    path('register/', reg, name='reg'),
+    path('dvd/register/', register, name='register'),
     path('enter/', enter, name='enter'),
 
     path('dvd/shop/<slug:slug>/', desc_dvd, name='desc'),

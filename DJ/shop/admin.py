@@ -11,5 +11,6 @@ class MobileAdmin(admin.ModelAdmin):
     search_fields = ('name', 'firm__name')
     list_filter = ('firm',)
 
+
 admin.site.register(Mobile, MobileAdmin)
 admin.site.register(Firm)
