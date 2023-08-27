@@ -2,20 +2,24 @@
 
 {% block content %}
     {% for mobile in mobiles %}
-    <a href="{{ mobile.get_absolute_url }}">
+
         <div class="cart">
         {% if mobile.photo %}
-        <img src="{{mobile.photo.url}}" alt="{{mobile.name}}" width=200>
+        <a href="{{ mobile.get_absolute_url }}">
+            <img src="{{mobile.photo.url}}" alt="{{mobile.name}}" width=200>
+            </a>
             {% endif %}
-        <p>{{mobile.firm}} {{mobile.name}}</p>
-        <p>Цена  -  {{mobile.price}}</p>
+        <a href="{{ mobile.get_absolute_url }}"><p>{{mobile.firm}} {{mobile.name}}</p></a>
+        <a href="{{ mobile.get_absolute_url }}"><p>Цена  -  {{mobile.price}}</p></a>
         {% if mobile.quantity <= 5  and mobile.quantity > 0  %}
             <p class="warning">Осталось мало: {{ mobile.quantity }} шт.</p>
+            <button>в корзину</button>
         {% elif mobile.quantity == 0 %}
             <p class="warning">Товар закончился</p>
+            {% else %}
+            <button>в корзину</button>
         {% endif %}
-    </a>
-        <button>в корзину</button>
+
     </div>
     
     {% endfor %}

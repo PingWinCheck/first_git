@@ -24,7 +24,7 @@ class Mobile(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('desc', kwargs={'slug': self.slug})
+        return reverse('info_mobile', kwargs={'slug': self.slug})
 
 
 

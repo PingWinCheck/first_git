@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.views.generic import ListView, DetailView, CreateView
 
 from shop.models import Mobile
 from .forms import *
@@ -98,3 +99,35 @@ def learn(request):
         # 'formdel': delmobile,
     }
     return render(request, 'learn.html', context=context)
+
+
+class MobileList(ListView):
+    model = Mobile
+    ordering = '-quantity'
+    template_name = 'telephone.html'
+    context_object_name = 'mobiles'
+
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Главная - телефоны'
+        return context
+
+    # def get(self, request):
+    #     find = request.GET['find']
+    #     # self.model.filter(name=find)
+    #     return reverse('index')
+
+class MobileDetail(DetailView):
+    model = Mobile
+    template_name = 'desc.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = context['mobile'].name
+        return context
+
+
+class MobileCreate(CreateView):
+    form_class = MobileForm
+    template_name = 'learn.html'
