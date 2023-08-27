@@ -108,15 +108,22 @@ class MobileList(ListView):
     context_object_name = 'mobiles'
 
 
+    # def get(self, request):
+    #     find = request.GET['find']
+    #     return reverse('index')
+
+    def get_queryset(self):
+        q = self.request.GET.get('find')
+        if q:
+            return self.model.objects.filter(name__icontains=q) | self.model.objects.filter(firm__name__icontains=q)
+        return self.model.objects.all()
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Главная - телефоны'
         return context
 
-    # def get(self, request):
-    #     find = request.GET['find']
-    #     # self.model.filter(name=find)
-    #     return reverse('index')
+
 
 class MobileDetail(DetailView):
     model = Mobile
