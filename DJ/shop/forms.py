@@ -45,6 +45,9 @@ class MobileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['firm'].empty_label = 'Выберите фирму'
+
     class Meta:
         model = Mobile
         fields = '__all__'
+
+

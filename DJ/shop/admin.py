@@ -13,3 +13,4 @@ class MobileAdmin(admin.ModelAdmin):
 
 admin.site.register(Mobile, MobileAdmin)
 admin.site.register(Firm)
+admin.site.register(ShoppingCart)

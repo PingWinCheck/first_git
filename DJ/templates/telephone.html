@@ -3,7 +3,7 @@
 {% block content %}
     {% for mobile in mobiles %}
 
-        <div class="cart">
+<div class="cart" xmlns="http://www.w3.org/1999/html">
         {% if mobile.photo %}
         <a href="{{ mobile.get_absolute_url }}">
             <img src="{{mobile.photo.url}}" alt="{{mobile.name}}" width=200>
@@ -13,11 +13,29 @@
         <a href="{{ mobile.get_absolute_url }}"><p>Цена  -  {{mobile.price}}</p></a>
         {% if mobile.quantity <= 5  and mobile.quantity > 0  %}
             <p class="warning">Осталось мало: {{ mobile.quantity }} шт.</p>
-            <button>в корзину</button>
         {% elif mobile.quantity == 0 %}
             <p class="warning">Товар закончился</p>
-            {% else %}
-            <button>в корзину</button>
+        {% endif %}
+            {% if mobile.quantity > 0  %}
+        {% if request.user.is_authenticated%}
+
+        {% if not mobile.pk in carts %}
+            <form method="post">
+                {% csrf_token%}
+                <button name="add_cart" value="{{ mobile.pk }}"><img src="static/shop/img/cart.jpg" alt="cart" width="30"> в корзину</button>
+            </form>
+        {% else %}
+            <form method="post">
+                {% csrf_token%}
+                <button name="minus_cart" value="{{ mobile.pk }}">-</button>
+            </form>
+            {{mobile.shoppingcart_set.get.quantity}}
+            <form method="post">
+                {% csrf_token%}
+                <button name="plus_cart" value="{{ mobile.pk }}">+</button>
+            </form>
+        {% endif %}
+            {% endif %}
         {% endif %}
 
     </div>

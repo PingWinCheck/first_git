@@ -16,10 +16,15 @@
                 <li><a href="{% url 'add' %}">add</a></li>
                 <li><a href="/admin">admin</a></li>
                     
-                <li><a href="#">learn</a></li>
-                    
-                <li><a href="#">design</a></li>
-                <li><a href="#">contacs</a></li>
+                <li><a href="#">about</a></li>
+                {% if not request.user.is_authenticated %}
+                <li><a href="{% url 'login' %}">auth</a></li>
+                <li><a href="{% url 'register' %}">register</a></li>
+                {% else %}
+                <li><a href="#">{{ user.username }}</a></li>
+                <li><a href="{% url 'shopping_cart' %}">Корзина: {{cart_count}}</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% endif %}
             </ul>
         </nav>
    </header>

@@ -1,34 +1,38 @@
-
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/static/shop/css/styles.css">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
+    <link rel="stylesheet" href="/static/shop/css/style_dvd.css">
 </head>
 <body>
-<div class="page">
-    ss
-    <br>
-    <br>
-    <br>
-    <br>
-    dd
-</div>
+   <header>
+        <a href="{% url 'dvd' %}" class="logo">LOGO</a>
+        <nav>
+            <ul>
+                <li><a href="{% url 'dvd' %}">home</a></li>
+                <li><a href="{% url 'about' %}">about</a></li>
+                <li><a href="/admin">admin</a></li>
 
-<div class="container">
-    {% for m in menu %}
-        <a href="{% url m.url %}">{{m.name}}</a>
-    {% endfor %}
+                <li><a href="{% url 'class' %}">class</a></li>
 
-</div>
+                <li><a href="{% url 'register' %}">register</a></li>
+                <li><a href="{% url 'index' %}">index</a></li>
+            </ul>
+        </nav>
+   </header>
 
-<h1>Магазин телефонов</h1>
+   <div class="backmenu">
+        <form action="{% url 'dvd' %}" method="">
+            <input type="text" name="find" placeholder="Поиск">
+        </form>
 
-
-{% block body %}
-{% endblock %}
-
+   </div>
+    <div class="maiin">
+        {% block content%}
+        {% endblock %}
+    </div>
 </body>
 </html>

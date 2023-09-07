@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator
 from django.db import models
 
 # Create your models here.
@@ -13,12 +15,9 @@ class Mobile(models.Model):
     quantity = models.PositiveSmallIntegerField(verbose_name='Кол-во', default=0)
     slug = models.SlugField(max_length=255, unique=True)
 
-
     class Meta:
         verbose_name = 'Мобильный телефон'
         verbose_name_plural = 'Мобильные телефоны'
-
-
 
     def __str__(self):
         return self.name
@@ -26,6 +25,14 @@ class Mobile(models.Model):
     def get_absolute_url(self):
         return reverse('info_mobile', kwargs={'slug': self.slug})
 
+
+class ShoppingCart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    mobile = models.ForeignKey(Mobile, on_delete=models.CASCADE, null=True, blank=True)
+    quantity = models.PositiveSmallIntegerField(default=1, validators=[MaxValueValidator(5)])
+
+    def __str__(self):
+        return self.user.username + self.mobile.name
 
 
 class Firm(models.Model):

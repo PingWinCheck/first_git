@@ -1,20 +1,22 @@
 {% extends "base.html" %}
 
-{% block body %}
-{% load static %}
-{% for i in db %}
-    <img src="{{i.photo.url}}" alt="{{ i.name }}" />
-    <br>
-    наименование - <a href="shop/{{i.slug}}"> {{i.name}} </a>
-    <br>
-    цена - {{i.price}}
-    <br>
-    описание - {{i.description}}
-    <br>
-    <br>
-    <br>
+{% block content %}
+    <h1>Тестовый сервер</h1>
+{% for mobile in mobiles %}
+    <a href="{{ mobile.get_absolute_url }}">
+        <div class="cart">
+        <img src="{{mobile.photo.url}}" alt="{{mobile.name}}" width=200>
+        <p>{{mobile.firm}} {{mobile.name}}</p>
+        <p>Цена  -  {{mobile.price}}</p>
+        {% if mobile.quantity <= 5  and mobile.quantity > 0  %}
+            <p class="warning">Осталось мало: {{ mobile.quantity }} шт.</p>
+        {% elif mobile.quantity == 0 %}
+            <p class="warning">Товар закончился</p>
+        {% endif %}
+    </a>
+        <button>в корзину</button>
+    </div>
 
-
-{% endfor %}
+    {% endfor %}
 {% endblock %}
 

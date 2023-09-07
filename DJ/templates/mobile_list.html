@@ -1,0 +1,6 @@
+{% extends 'dvd.html' %}
+{% block content %}
+    {% for obj in mobile_list  %}
+        <p>{{obj.name}}</p>
+    {% endfor %}
+{% endblock %}
