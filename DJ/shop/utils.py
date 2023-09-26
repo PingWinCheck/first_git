@@ -12,5 +12,6 @@ class ContexteMixin:
             cart_count += cart.quantity
         context['carts'] = cart_id
         context['cart_count'] = cart_count
-        context['count_favourites'] = len(self.request.session['like'])
+        if self.request.session.get('like'):
+            context['count_favourites'] = len(self.request.session['like'])
         return context
