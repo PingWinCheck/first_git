@@ -17,7 +17,7 @@ class ModelForm(forms.ModelForm):
         self.fields['firm'].empty_label = 'Фирма не выбрана'
     class Meta:
         model = Mobile
-        fields = ['firm', 'name', 'price', 'slug']
+        fields = '__all__'
 
     def clean_name(self):
         name = self.cleaned_data['name']
@@ -51,3 +51,7 @@ class MobileForm(forms.ModelForm):
         fields = '__all__'
 
 
+class AdresForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ('city', 'street', 'home', 'flat')

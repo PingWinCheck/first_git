@@ -5,13 +5,16 @@ from django.contrib.auth.views import LoginView
 from django.db.models import Count, Sum
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views import View
+from rest_framework import generics
 
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
 from shop.models import Mobile
 from .forms import *
 from django.http import HttpResponseNotFound
 
+from .serializers import MobileSerializer
 from .utils import ContexteMixin
 
 
@@ -83,26 +86,6 @@ def learn(request):
     else:
         form = ModelForm()
 
-
-    # if request.method == 'POST':
-    #     delmobile = DelMobile(request.POST)
-    #     if delmobile.is_valid():
-    #         print(delmobile.cleaned_data)
-    #         print(delmobile.cleaned_data['delmobile'])
-    #         Mobile.objects.filter(name=delmobile.cleaned_data['delmobile']).delete()
-    #         return redirect('dvd')
-    # else:
-    #     delmobile = DelMobile()
-
-    # if request.method == 'POST':
-    #     delmobile = DelMobile(request.POST)
-    #     if delmobile.is_valid():
-    #         Mobile.objects.filter(name=delmobile.cleaned_data['name']).delete()
-    #         print(delmobile.cleaned_data)
-    #         return redirect('dvd')
-    # else:
-    #     delmobile = DelMobile()
-
     context = {
         'form': form,
         # 'formdel': delmobile,
@@ -116,7 +99,9 @@ class MobileList(ContexteMixin, ListView):
     template_name = 'telephone.html'
     context_object_name = 'mobiles'
 
+
     def get_queryset(self):
+
         q = self.request.GET.get('find')
         if q:
             return self.model.objects.filter(name__icontains=q) | self.model.objects.filter(firm__name__icontains=q)
@@ -129,23 +114,27 @@ class MobileList(ContexteMixin, ListView):
         return {**context, **self.add_context()}
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
         if 'add_cart' in request.POST:
-            print('net')
             ShoppingCart.objects.create(user=request.user, mobile_id=request.POST['add_cart'])
 
         elif 'plus_cart' in request.POST:
-            print('da')
             s = ShoppingCart.objects.get(mobile_id=request.POST['plus_cart'], user=request.user)
             s.quantity += 1
             s.save()
         elif 'minus_cart' in request.POST:
-            print('da')
             s = ShoppingCart.objects.get(mobile_id=request.POST['minus_cart'], user=request.user)
             s.quantity -= 1
             s.save()
             if s.quantity == 0:
                 s.delete()
+        elif 'like' in request.POST:
+            if not request.session.get('like'):
+                request.session['like'] = []
+            if not int(request.POST['like']) in request.session['like']:
+                request.session['like'] = request.session['like'] + [int(request.POST['like'])]
+            else:
+                request.session.modified = True
+                request.session['like'].remove(int(request.POST['like']))
         return redirect('/')
 
 
@@ -249,3 +238,97 @@ class ShoppingCartListView(ContexteMixin, ListView):
 
 def bs(request):
     return render(request, 'bs.html')
+
+
+class MobileListAPI(generics.ListAPIView):
+    queryset = Mobile.objects.all()
+    serializer_class = MobileSerializer
+
+class FavouritesView(ListView):
+    model = Mobile
+    context_object_name = 'mobiles'
+    template_name = 'favourites.html'
+
+
+    def get_queryset(self):
+        qs = []
+        for i in self.request.session['like']:
+            qs.append(Mobile.objects.get(pk=i))
+        return qs
+
+    def post(self, request, *args, **kwargs):
+        self.request.session.modified = True
+        self.request.session['like'].remove(int(request.POST['like']))
+        return redirect('/favourites/')
+
+
+class Confirm(ListView):
+    model = Address
+    template_name = 'confirm.html'
+    context_object_name = 'address'
+
+
+    def post(self, request, *args, **kwargs):
+        if 'adr' in request.POST:
+            request.session['address'] = int(request.POST['adr'])
+            print(request.session.items())
+            return redirect('payment')
+        return redirect('/confirm')
+
+
+class AddAddress(CreateView):
+    model = Address
+    template_name = 'add_address.html'
+    fields = ('city', 'street', 'home', 'flat')
+    success_url = reverse_lazy('confirm')
+    # initial = {'user': 1}
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+
+
+
+
+
+def adres(request):
+    user = request.user.pk
+    ad = AdresForm(initial={'user': user})
+    # ad['user'] = user
+
+    context = {'userid': user,
+               'form': ad,
+    }
+
+    return render(request, 'adres.html', context=context)
+
+
+class Payment(TemplateView):
+    template_name = 'payment.html'
+
+    def post(self, request):
+        if int(self.request.POST['paymethod']) < 3:
+            return redirect('/')
+        return redirect('/confirm/payment/')
+
+
+class LK(ListView):
+    template_name = 'lk.html'
+    context_object_name = 'address'
+
+    def get_queryset(self):
+        return Address.objects.filter(user=self.request.user)
+
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['carts'] = ShoppingCart.objects.filter(user=self.request.user)
+
+        return context
+
+    def post(self, request):
+        Address.objects.filter(user=self.request.user).update(checked=False)
+        Address.objects.filter(pk=self.request.POST['adr']).update(checked=True)
+        return redirect(reverse_lazy('lk'))

@@ -1,0 +1,29 @@
+{% extends 'dvd.html' %}
+
+{% block content %}
+    {% for mobile in mobiles %}
+
+        <div class="cart">
+        {% if mobile.photo %}
+        <a href="{{ mobile.get_absolute_url }}">
+            <img src="{{mobile.photo.url}}" alt="{{mobile.name}}" width=200>
+            </a>
+            {% endif %}
+        <a href="{{ mobile.get_absolute_url }}"><p>{{mobile.firm}} {{mobile.name}}</p></a>
+        <a href="{{ mobile.get_absolute_url }}"><p>Цена  -  {{mobile.price}}</p></a>
+        {% if not mobile.pk in request.session.like%}
+    dislike
+
+        <form method="post">
+            {% csrf_token%}
+            <button class="likebutton" name="like" value="{{ mobile.pk }}">♡</button>
+        </form>
+    {% else %}
+        <form method="post">
+            {% csrf_token%}
+            <button class="likebuttonactive" name="like" value="{{ mobile.pk }}">♡</button>
+        </form>
+    {% endif %}
+    </div>
+    {% endfor %}
+{% endblock %}

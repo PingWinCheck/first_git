@@ -10,7 +10,7 @@ class ContexteMixin:
         for cart in carts:
             cart_id.append(cart.mobile.pk)
             cart_count += cart.quantity
-        s = carts.filter(mobile_id=3)
         context['carts'] = cart_id
         context['cart_count'] = cart_count
+        context['count_favourites'] = len(self.request.session['like'])
         return context

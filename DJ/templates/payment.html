@@ -1,0 +1,23 @@
+{% extends 'dvd.html' %}
+{%block style%}
+<style>
+.backmenu {
+    visibility: hidden;
+}
+</style>
+
+{%endblock%}
+{% block content %}
+<h1>Выберите способ оплаты</h1>
+<form method="post">
+    {% csrf_token %}
+
+    <p><input type="radio" value="1" name="paymethod">Наличными при получении</p>
+    <p><input type="radio" value="2" name="paymethod">Картой при получении</p>
+    <p><input type="radio" value="3" name="paymethod">Картой онлайн</p>
+
+    <input type="submit" value="Далее">
+</form>
+<br>
+
+{% endblock %}

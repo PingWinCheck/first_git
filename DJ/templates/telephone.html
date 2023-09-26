@@ -19,6 +19,21 @@
             {% if mobile.quantity > 0  %}
         {% if request.user.is_authenticated%}
 
+    {{request.session.like}}
+    {{mobile.pk}}
+    {% if not mobile.pk in request.session.like%}
+    dislike
+
+        <form method="post">
+            {% csrf_token%}
+            <button class="likebutton" name="like" value="{{ mobile.pk }}">♡</button>
+        </form>
+    {% else %}
+        <form method="post">
+            {% csrf_token%}
+            <button class="likebuttonactive" name="like" value="{{ mobile.pk }}">♡</button>
+        </form>
+    {% endif %}
         {% if not mobile.pk in carts %}
             <form method="post">
                 {% csrf_token%}
@@ -27,12 +42,12 @@
         {% else %}
             <form method="post">
                 {% csrf_token%}
-                <button name="minus_cart" value="{{ mobile.pk }}">-</button>
+                <button name="minus_cart" value="{{ mobile.pk }}">Убавить [ - ]</button>
             </form>
             {{mobile.shoppingcart_set.get.quantity}}
             <form method="post">
                 {% csrf_token%}
-                <button name="plus_cart" value="{{ mobile.pk }}">+</button>
+                <button name="plus_cart" value="{{ mobile.pk }}">Добавить [ + ]</button>
             </form>
         {% endif %}
             {% endif %}

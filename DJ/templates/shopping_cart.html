@@ -1,7 +1,7 @@
 {% extends 'dvd.html' %}
 
 {% block content %}
-<h1>Кол-во товаров в вашей корзине = {{shopping_cart.count}}</h1>
+<h1>Кол-во уникальных товаров в вашей корзине = {{shopping_cart.count}}</h1>
  {% for m in shopping_cart %}
 
         <div class="cart">
@@ -13,22 +13,19 @@
         <a href="{{ mobile.get_absolute_url }}"><p>{{m.mobile.firm}} {{m.mobile.name}}</p></a>
         <a href="{{ mobile.get_absolute_url }}"><p>Цена  -  {{m.mobile.price}}</p></a>
         <br>
-            {{m.pk}}
             <form method="post">
                 {% csrf_token%}
-                <button name="minus_cart" value="{{ m.pk }}">-</button>
-            </form>
-            {{m.quantity}}
-            <form method="post">
-                {% csrf_token%}
-                <button name="plus_cart" value="{{ m.pk }}">+</button>
+                <button name="minus_cart" value="{{ m.pk }}">Убавить [ - ]</button>
             </form>
             Кол-во товаров в корзине = {{m.quantity}}
-
-
+            <form method="post">
+                {% csrf_token%}
+                <button name="plus_cart" value="{{ m.pk }}">Добавить [ + ]</button>
+            </form>
 
     </div>
 
     {% endfor %}
 <h3>Итоговая сумма = {{sum}}</h3>
+<a href="{% url 'confirm' %}"><h2 class="buy">Перейти к оформлению</h2></a>
 {% endblock %}

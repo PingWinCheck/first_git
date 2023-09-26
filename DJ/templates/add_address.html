@@ -1,0 +1,17 @@
+{% extends 'dvd.html' %}
+{%block style%}
+<style>
+.backmenu {
+    visibility: hidden;
+}
+</style>
+
+{%endblock%}
+{% block content %}
+<h1>Добавление нового адреса</h1>
+<form method="post">
+    {%csrf_token%}
+    {{form.as_p}}
+    <input type="submit" value="OK">
+</form>
+{% endblock %}

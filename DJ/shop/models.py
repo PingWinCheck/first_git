@@ -30,9 +30,17 @@ class ShoppingCart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     mobile = models.ForeignKey(Mobile, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveSmallIntegerField(default=1, validators=[MaxValueValidator(5)])
+    status = models.ForeignKey('OrderStatus', on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.user.username + self.mobile.name
+
+
+class OrderStatus(models.Model):
+    status = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.status
 
 
 class Firm(models.Model):
@@ -44,3 +52,17 @@ class Firm(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    city = models.CharField(max_length=100)
+    street = models.CharField(max_length=100)
+    home = models.CharField(max_length=15)
+    flat = models.PositiveSmallIntegerField(blank=True, null=True)
+    checked = models.BooleanField(default=0)
+
+    def __str__(self):
+        if self.flat:
+            return f'{self.user}  |  {self.city}, {self.street}, {self.home}, {self.flat}'
+        return f'{self.user}  |  {self.city}, {self.street}, {self.home}'

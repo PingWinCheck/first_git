@@ -29,7 +29,7 @@ urlpatterns = [
     # path('about/', about, name='about'),
     # path('register/', reg, name='reg'),
     # path('enter/', enter, name='enter'),
-    # path('dvd/learn/', learn, name='learn'),
+    path('dvd/learn/', learn, name='learn'),
     #
     # path('dvd/shop/<slug:slug>/', desc_dvd, name='desc'),
 ]

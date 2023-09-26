@@ -1,0 +1,29 @@
+{% extends 'dvd.html' %}
+{%block style%}
+<style>
+.backmenu {
+    visibility: hidden;
+}
+</style>
+
+{%endblock%}
+{% block content %}
+{% if address %}
+<h1>Выберите адрес доставки</h1>
+<form method="post">
+    {% csrf_token %}
+{% for adres in address %}
+    <p>
+            <input type="radio" value="{{ adres.pk }}" name="adr" {% if adres.checked %} checked {%endif%}>
+        г. {{ adres.city }} ул. {{ adres.street }} д. {{ adres.home }}
+        {% if adres.flat %}
+            кв. {{ adres.flat }}
+        {%endif%}
+    </p>
+{% endfor %}
+    <input type="submit" value="К оплате">
+</form>
+{% endif %}
+<br>
+<a href="{% url 'add_address' %}"><h4 class="buy">Добавить новый адрес доставки</h4></a>
+{% endblock %}
